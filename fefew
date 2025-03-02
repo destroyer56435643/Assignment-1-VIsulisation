@@ -1,1 +1,82 @@
-fe
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+df_Exports = pd.read_excel("Data.xlsx", engine="openpyxl")
+df_Imports = pd.read_excel('Exportsssss.xlsx',engine ="openpyxl")
+
+
+df_smallE = df_Exports[3:189]
+df_smallI = df_Imports[3:189]
+
+
+
+plt.figure()
+
+plt.plot(df_smallE["Name:"],df_smallE["ONS.UK.TBP.IKBE.Q"],label = "Total Value of Exports")
+plt.plot(df_smallI["Name:"],df_smallI["ONS.UK.TBP.IKBF.Q"],label = "Total Value of Imports")
+
+
+plt.xticks(rotation=90)
+
+
+plt.xlabel("Year")
+plt.ylabel("£ Millions")
+plt.legend()
+plt.title("Value of Imports vs the value of Exports")
+plt.show()
+
+
+
+#Bar chart
+
+df_CPIH = pd.read_excel("CPIH.xlsx",engine='openpyxl')
+
+df_smallCI = df_CPIH[['Unnamed: 1','Unnamed: 3']][3:15]
+df_smallCIP = df_CPIH[['Unnamed: 1','Unnamed: 6']][3:15]
+
+Months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+indx = np.arange(len(Months))
+
+
+
+plt.figure()
+
+bar_width = 0.4
+
+plt.bar(indx - bar_width/2,df_smallCI['Unnamed: 3'],width = 0.4,label = 'Consumer Prices Index including  housing costs')
+plt.bar(indx +  bar_width/2,df_smallCIP['Unnamed: 6'],width = 0.4,label = 'Consumer Price Index')
+
+plt.title('Measures of Inflation ')
+
+plt.xticks(indx,Months)
+plt.yticks([1,2,3,4,5])
+plt.legend()
+
+
+plt.show()
+
+
+#Pie chart
+
+Exp1Value = df_smallE.iloc[185,1]
+Int1Value = df_smallI.iloc[185,1]
+
+
+
+combined = {'Name':[Exp1Value,Int1Value]}
+df_combined = pd.DataFrame(combined)
+
+plt.figure()
+
+label = ["Exports","Imports"]
+
+plt.pie(df_combined['Name'],labels = label ,autopct='%1.1f%%',radius = 0.8)
+
+plt.title('Percentage of Exports vs Percentage of Imports')
+
+
+
+plt.show()
